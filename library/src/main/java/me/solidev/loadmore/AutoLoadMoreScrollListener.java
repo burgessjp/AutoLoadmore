@@ -5,15 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
 /**
- *
  * RecyclerView auto load more listener when scroll to bottom.
  *
  * @author _SOLID
  */
-abstract class LoadMoreScrollListener extends RecyclerView.OnScrollListener {
+abstract class AutoLoadMoreScrollListener extends RecyclerView.OnScrollListener {
 
-    private int previousTotal;
-    private boolean isLoading = true;
     private LinearLayoutManager lm;
     private StaggeredGridLayoutManager sm;
     private int[] lastPositions;
@@ -39,21 +36,7 @@ abstract class LoadMoreScrollListener extends RecyclerView.OnScrollListener {
             lastVisibleItemPosition = lastPositions[0];
         }
 
-        if (isLoading) {
-            if (totalItemCount > previousTotal) {
-                //load more end
-                isLoading = false;
-                previousTotal = totalItemCount;
-            } else if (totalItemCount < previousTotal) {
-                //refresh end
-                previousTotal = totalItemCount;
-                isLoading = false;
-            }
-
-
-        }
-        if (!isLoading
-                && visibleItemCount > 0
+        if (visibleItemCount > 0
                 && totalItemCount - 1 == lastVisibleItemPosition
                 && recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_IDLE) {
             loadMore();

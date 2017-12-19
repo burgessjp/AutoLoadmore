@@ -13,7 +13,6 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 /**
- *
  * Load more wrap adapter for RecyclerView.
  *
  * @author _SOLID
@@ -27,13 +26,14 @@ public class AutoLoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int ITEM_TYPE_NO_VIEW = Integer.MAX_VALUE - 4;
 
     private RecyclerView.Adapter mInnerAdapter;
-    private LoadMoreScrollListener mLoadMoreScrollListener;
+    private AutoLoadMoreScrollListener mLoadMoreScrollListener;
 
     private int mCurrentItemType = ITEM_TYPE_LOAD_MORE_VIEW;
     private boolean isLoadError = false;
     private boolean isLoading = false;
     private boolean isDisabled = false;
     private boolean isLoadCompleted = false;
+    private LoadMoreConfig config;
 
     private View mLoadMoreView;
     private View mLoadMoreFailedView;
@@ -43,10 +43,10 @@ public class AutoLoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public AutoLoadMoreAdapter(Context context, RecyclerView.Adapter adapter) {
         this.mInnerAdapter = adapter;
         mInflater = LayoutInflater.from(context);
-        mLoadMoreScrollListener = new LoadMoreScrollListener() {
+        mLoadMoreScrollListener = new AutoLoadMoreScrollListener() {
             @Override
             public void loadMore() {
-                if (isLoading || isLoadCompleted || isLoadError || isDisabled) {
+                if (isDisabled || isLoading || isLoadCompleted || isLoadError) {
                     return;
                 }
                 if (mOnLoadListener != null) {
@@ -56,6 +56,11 @@ public class AutoLoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             }
         };
+        config = LoadMoreConfig.defaultBuilder().create();
+    }
+
+    public void setConfig(LoadMoreConfig config) {
+        this.config = config;
     }
 
     public void finishLoading() {
@@ -66,6 +71,7 @@ public class AutoLoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mCurrentItemType = ITEM_TYPE_LOAD_MORE_VIEW;
         isLoadError = false;
         isLoadCompleted = false;
+        isLoading = false;
         notifyItemChanged(getItemCount());
     }
 
@@ -96,7 +102,7 @@ public class AutoLoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private ViewHolder getLoadMoreViewHolder() {
         if (mLoadMoreView == null) {
-            mLoadMoreView = inflateView(LoadMoreConfig.loadingView);
+            mLoadMoreView = inflateView(config.loadingView);
         }
         return new ViewHolder(mLoadMoreView);
     }
@@ -104,14 +110,14 @@ public class AutoLoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private ViewHolder getLoadFailedViewHolder() {
         if (mLoadMoreFailedView == null) {
-            mLoadMoreFailedView = inflateView(LoadMoreConfig.loadFailedView);
+            mLoadMoreFailedView = inflateView(config.loadFailedView);
         }
         return new ViewHolder(mLoadMoreFailedView);
     }
 
     private ViewHolder getNoMoreViewHolder() {
         if (mNoMoreView == null) {
-            mNoMoreView = inflateView(LoadMoreConfig.loadFinishView);
+            mNoMoreView = inflateView(config.loadFinishView);
         }
         return new ViewHolder(mNoMoreView);
     }

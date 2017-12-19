@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
-        android:text="加载失败，请点我重试"
+        android:text="@string/auto_loadmore_load_failed"
         android:textColor="@android:color/black"
         android:textSize="16sp" />
 

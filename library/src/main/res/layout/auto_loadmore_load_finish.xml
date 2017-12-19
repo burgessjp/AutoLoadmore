@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
-        android:text="数据全部加载完成"
+        android:text="@string/auto_loadmore_load_finish"
         android:textColor="@android:color/black"
         android:textSize="16sp" />
 

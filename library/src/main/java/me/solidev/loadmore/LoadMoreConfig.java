@@ -1,28 +1,82 @@
 package me.solidev.loadmore;
 
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 
 /**
- *
  * load more global config
  *
  * @author _SOLID
  */
 
 public class LoadMoreConfig {
-    static int loadingView = R.layout.auto_loadmore_loading;
-    static int loadFailedView = R.layout.auto_loadmore_load_failed;
-    static int loadFinishView = R.layout.auto_loadmore_load_finish;
+    private static int globalLoadingView = R.layout.auto_loadmore_loading;
+    private static int globalLoadFailedView = R.layout.auto_loadmore_load_failed;
+    private static int globalLoadFinishView = R.layout.auto_loadmore_load_finish;
+    int loadingView;
+    int loadFailedView;
+    int loadFinishView;
 
-    public static void setLoadingView(@LayoutRes int loadingView) {
-        LoadMoreConfig.loadingView = loadingView;
+    private LoadMoreConfig(@NonNull Builder builder) {
+        if (builder.loadingView != 0) {
+            this.loadingView = builder.loadingView;
+        } else {
+            this.loadingView = globalLoadingView;
+        }
+        if (builder.loadFailedView != 0) {
+            this.loadFailedView = builder.loadFailedView;
+        } else {
+            this.loadFailedView = globalLoadFailedView;
+        }
+        if (builder.loadFinishView != 0) {
+            this.loadFinishView = builder.loadFinishView;
+        } else {
+            this.loadFinishView = globalLoadFinishView;
+        }
     }
 
-    public static void setLoadFailedView(@LayoutRes int loadFailedView) {
-        LoadMoreConfig.loadFailedView = loadFailedView;
+    public static void setGlobalLoadingView(@LayoutRes int globalLoadingView) {
+        LoadMoreConfig.globalLoadingView = globalLoadingView;
     }
 
-    public static void setLoadFinishView(@LayoutRes int loadFinishView) {
-        LoadMoreConfig.loadFinishView = loadFinishView;
+    public static void setGlobalLoadFailedView(@LayoutRes int globalLoadFailedView) {
+        LoadMoreConfig.globalLoadFailedView = globalLoadFailedView;
+    }
+
+    public static void setGlobalLoadFinishView(@LayoutRes int globalLoadFinishView) {
+        LoadMoreConfig.globalLoadFinishView = globalLoadFinishView;
+    }
+
+    static Builder defaultBuilder() {
+        Builder builder = new Builder();
+        builder.loadFinishView = globalLoadFinishView;
+        builder.loadingView = globalLoadingView;
+        builder.loadFailedView = globalLoadFailedView;
+        return builder;
+    }
+
+    public static class Builder {
+        private int loadingView;
+        private int loadFailedView;
+        private int loadFinishView;
+
+        public Builder loadingView(@LayoutRes int loadingView) {
+            this.loadingView = loadingView;
+            return this;
+        }
+
+        public Builder loadFailedView(@LayoutRes int loadFailedView) {
+            this.loadFailedView = loadFailedView;
+            return this;
+        }
+
+        public Builder loadFinishView(@LayoutRes int loadFinishView) {
+            this.loadFinishView = loadFinishView;
+            return this;
+        }
+
+        public LoadMoreConfig create() {
+            return new LoadMoreConfig(this);
+        }
     }
 }
