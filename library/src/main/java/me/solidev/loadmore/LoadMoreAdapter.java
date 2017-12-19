@@ -13,10 +13,10 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 /**
+ *
+ * Load more wrap adapter for RecyclerView.
+ *
  * @author _SOLID
- * @date 2016/10/9
- * @contact https://github.com/burgessjp
- * @desc Load more wrap adapter for RecyclerView.
  */
 @SuppressWarnings("unused")
 public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

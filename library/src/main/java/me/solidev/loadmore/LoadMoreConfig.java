@@ -3,10 +3,10 @@ package me.solidev.loadmore;
 import android.support.annotation.LayoutRes;
 
 /**
+ *
+ * load more global config
+ *
  * @author _SOLID
- * @date 2017/12/19 14:01
- * @contact https://github.com/burgessjp
- * @desc load more global config
  */
 
 public class LoadMoreConfig {

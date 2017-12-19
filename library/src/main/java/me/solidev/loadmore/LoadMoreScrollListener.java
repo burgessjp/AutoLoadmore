@@ -5,13 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
 /**
+ *
+ * RecyclerView auto load more listener when scroll to bottom.
+ *
  * @author _SOLID
- * @date 2016/10/9
- * @contact https://github.com/burgessjp
- * @desc RecyclerView auto load more listener when scroll to bottom.
  */
 abstract class LoadMoreScrollListener extends RecyclerView.OnScrollListener {
-
 
     private int previousTotal;
     private boolean isLoading = true;
@@ -41,14 +40,14 @@ abstract class LoadMoreScrollListener extends RecyclerView.OnScrollListener {
         }
 
         if (isLoading) {
-            if (totalItemCount > previousTotal) {//加载更多结束
+            if (totalItemCount > previousTotal) {
+                //load more end
                 isLoading = false;
                 previousTotal = totalItemCount;
-            } else if (totalItemCount < previousTotal) {//用户刷新结束
+            } else if (totalItemCount < previousTotal) {
+                //refresh end
                 previousTotal = totalItemCount;
                 isLoading = false;
-            } else {//有可能是在第一页刷新也可能是加载完毕
-
             }
 
 
