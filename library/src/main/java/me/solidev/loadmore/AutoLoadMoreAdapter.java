@@ -19,7 +19,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  * @author _SOLID
  */
 @SuppressWarnings("unused")
-public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AutoLoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int ITEM_TYPE_LOAD_FAILED_VIEW = Integer.MAX_VALUE - 1;
     private static final int ITEM_TYPE_NO_MORE_VIEW = Integer.MAX_VALUE - 2;
@@ -40,7 +40,7 @@ public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private View mNoMoreView;
     private final LayoutInflater mInflater;
 
-    public LoadMoreAdapter(Context context, RecyclerView.Adapter adapter) {
+    public AutoLoadMoreAdapter(Context context, RecyclerView.Adapter adapter) {
         this.mInnerAdapter = adapter;
         mInflater = LayoutInflater.from(context);
         mLoadMoreScrollListener = new LoadMoreScrollListener() {

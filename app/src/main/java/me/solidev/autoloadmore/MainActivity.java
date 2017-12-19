@@ -3,7 +3,6 @@ package me.solidev.autoloadmore;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import me.solidev.loadmore.LoadMoreAdapter;
+import me.solidev.loadmore.AutoLoadMoreAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private List<DemoBean> list;
     private int pageIndex = 0;
-    private LoadMoreAdapter mLoadMoreAdapter;
+    private AutoLoadMoreAdapter mAutoLoadMoreAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +35,8 @@ public class MainActivity extends AppCompatActivity {
         list = new ArrayList<>();
         initData();
         MyAdapter myAdapter = new MyAdapter(this, list);
-        mLoadMoreAdapter = new LoadMoreAdapter(this, myAdapter);
-        mRecyclerView.setAdapter(mLoadMoreAdapter);
-
-        mLoadMoreAdapter.setOnLoadListener(new LoadMoreAdapter.OnLoadListener() {
+        mAutoLoadMoreAdapter = new AutoLoadMoreAdapter(this, myAdapter);
+        mAutoLoadMoreAdapter.setOnLoadListener(new AutoLoadMoreAdapter.OnLoadListener() {
             @Override
             public void onRetry() {
                 Log.i(TAG, "onRetry " + pageIndex);
@@ -52,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
                 mockLoadmore();
             }
         });
+        mRecyclerView.setAdapter(mAutoLoadMoreAdapter);
+
+
     }
 
     private void initData() {
@@ -78,9 +78,9 @@ public class MainActivity extends AppCompatActivity {
                     isError = true;
                 }
                 if (isError) {
-                    mLoadMoreAdapter.showLoadError();
+                    mAutoLoadMoreAdapter.showLoadError();
                 } else if (pageIndex >= 10) {
-                    mLoadMoreAdapter.showLoadComplete();
+                    mAutoLoadMoreAdapter.showLoadComplete();
                 } else {
                     for (int i = pageIndex * 10; i < pageIndex * 10 + 10; i++) {
                         DemoBean demoBean = new DemoBean();
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                         list.add(demoBean);
                     }
                     pageIndex++;
-                    mLoadMoreAdapter.finishLoading();
+                    mAutoLoadMoreAdapter.finishLoading();
                 }
                 mRecyclerView.getAdapter().notifyDataSetChanged();
             }
