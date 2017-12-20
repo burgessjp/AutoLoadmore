@@ -17,7 +17,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
         android:text="@string/auto_loadmore_loading"
-        android:textColor="@android:color/black"
+        android:textColor="@color/auto_loadmore_text"
         android:textSize="16sp" />
 
 </LinearLayout>

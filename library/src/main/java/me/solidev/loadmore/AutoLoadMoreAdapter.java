@@ -33,7 +33,7 @@ public class AutoLoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private boolean isLoading = false;
     private boolean isDisabled = false;
     private boolean isLoadCompleted = false;
-    private LoadMoreConfig config;
+    private AutoLoadMoreConfig config;
 
     private View mLoadMoreView;
     private View mLoadMoreFailedView;
@@ -56,10 +56,10 @@ public class AutoLoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             }
         };
-        config = LoadMoreConfig.defaultBuilder().create();
+        config = AutoLoadMoreConfig.defaultBuilder().create();
     }
 
-    public void setConfig(LoadMoreConfig config) {
+    public void setConfig(AutoLoadMoreConfig config) {
         this.config = config;
     }
 
@@ -78,6 +78,8 @@ public class AutoLoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void showLoadError() {
         mCurrentItemType = ITEM_TYPE_LOAD_FAILED_VIEW;
         isLoadError = true;
+        isLoadCompleted = false;
+        isLoading = false;
         notifyItemChanged(getItemCount());
     }
 
@@ -85,10 +87,14 @@ public class AutoLoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mCurrentItemType = ITEM_TYPE_NO_MORE_VIEW;
         isLoadError = false;
         isLoadCompleted = true;
+        isLoading = false;
         notifyItemChanged(getItemCount());
     }
 
-    public void disableLoadMore() {
+    /**
+     * disable auto loadmore when unnecessary
+     */
+    public void disable() {
         mCurrentItemType = ITEM_TYPE_NO_VIEW;
         isDisabled = true;
         notifyDataSetChanged();

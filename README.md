@@ -1,12 +1,14 @@
 [ ![Download](https://api.bintray.com/packages/solid/maven/AutoLoadmore/images/download.svg) ](https://bintray.com/solid/maven/AutoLoadmore/_latestVersion)
-Auto load more for RecyclerView
+
+Auto load more for `RecyclerView` when scroll to bottom.
+
 ### Download
  ```html
   compile 'me.solidev.library:auto-loadmore:latestVersion'
  ```
 
 ### Usage
-Wrap your adapter use LoadMoreAdapter
+Wrap your adapter use AutoLoadMoreAdapter
 ```
  MyAdapter myAdapter = new MyAdapter(this, list);
  mAutoLoadMoreAdapter = new AutoLoadMoreAdapter(this, myAdapter);
@@ -26,13 +28,28 @@ Wrap your adapter use LoadMoreAdapter
 
 When load more successfully you should call ` mAutoLoadMoreAdapter.finishLoading()`
 
-You can set custom status view also.
- ```
- LoadMoreConfig.setLoadFailedView(R.layout.custom_load_failed);
- LoadMoreConfig.setLoadingView(R.layout.custom_loading);
- ```
+**You can set custom status view also.**
 
+- for global
 
+ ```
+ AutoLoadMoreConfig.setLoadFailedView(R.layout.custom_load_failed);
+ AutoLoadMoreConfig.setLoadingView(R.layout.custom_loading);
+ ```
+- for specific
+
+  ```
+  mAutoLoadMoreAdapter.setConfig(new AutoLoadMoreConfig
+                  .Builder()
+                  .loadingView(R.layout.custom_loading)
+                  .loadFailedView(R.layout.custom_load_failed)
+                  .create());
+  ```
+
+### Other API
+- disable load: `mAutoLoadMoreAdapter.disable();`
+- load error: `mAutoLoadMoreAdapter.showLoadError()`
+- load finish: `mAutoLoadMoreAdapter.showLoadComplete()`
 
 ### LICENSE
 

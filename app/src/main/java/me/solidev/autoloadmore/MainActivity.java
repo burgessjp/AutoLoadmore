@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 import me.solidev.loadmore.AutoLoadMoreAdapter;
+import me.solidev.loadmore.AutoLoadMoreConfig;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,6 +37,14 @@ public class MainActivity extends AppCompatActivity {
         initData();
         MyAdapter myAdapter = new MyAdapter(this, list);
         mAutoLoadMoreAdapter = new AutoLoadMoreAdapter(this, myAdapter);
+//        mAutoLoadMoreAdapter.setConfig(new AutoLoadMoreConfig
+//                .Builder()
+//                .loadingView(R.layout.custom_loading)
+//                .loadFailedView(R.layout.custom_load_failed)
+//                .create());
+       // mAutoLoadMoreAdapter.disable();
+        mAutoLoadMoreAdapter.showLoadError();
+        mAutoLoadMoreAdapter.showLoadComplete();
         mAutoLoadMoreAdapter.setOnLoadListener(new AutoLoadMoreAdapter.OnLoadListener() {
             @Override
             public void onRetry() {

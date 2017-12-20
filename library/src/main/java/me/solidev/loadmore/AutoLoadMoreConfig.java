@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
  * @author _SOLID
  */
 
-public class LoadMoreConfig {
+public class AutoLoadMoreConfig {
     private static int globalLoadingView = R.layout.auto_loadmore_loading;
     private static int globalLoadFailedView = R.layout.auto_loadmore_load_failed;
     private static int globalLoadFinishView = R.layout.auto_loadmore_load_finish;
@@ -17,7 +17,7 @@ public class LoadMoreConfig {
     int loadFailedView;
     int loadFinishView;
 
-    private LoadMoreConfig(@NonNull Builder builder) {
+    private AutoLoadMoreConfig(@NonNull Builder builder) {
         if (builder.loadingView != 0) {
             this.loadingView = builder.loadingView;
         } else {
@@ -36,15 +36,15 @@ public class LoadMoreConfig {
     }
 
     public static void setGlobalLoadingView(@LayoutRes int globalLoadingView) {
-        LoadMoreConfig.globalLoadingView = globalLoadingView;
+        AutoLoadMoreConfig.globalLoadingView = globalLoadingView;
     }
 
     public static void setGlobalLoadFailedView(@LayoutRes int globalLoadFailedView) {
-        LoadMoreConfig.globalLoadFailedView = globalLoadFailedView;
+        AutoLoadMoreConfig.globalLoadFailedView = globalLoadFailedView;
     }
 
     public static void setGlobalLoadFinishView(@LayoutRes int globalLoadFinishView) {
-        LoadMoreConfig.globalLoadFinishView = globalLoadFinishView;
+        AutoLoadMoreConfig.globalLoadFinishView = globalLoadFinishView;
     }
 
     static Builder defaultBuilder() {
@@ -75,8 +75,8 @@ public class LoadMoreConfig {
             return this;
         }
 
-        public LoadMoreConfig create() {
-            return new LoadMoreConfig(this);
+        public AutoLoadMoreConfig create() {
+            return new AutoLoadMoreConfig(this);
         }
     }
 }
