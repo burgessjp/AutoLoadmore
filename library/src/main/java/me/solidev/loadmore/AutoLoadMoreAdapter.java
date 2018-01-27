@@ -163,6 +163,12 @@ public class AutoLoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             });
             return;
+        } else if (holder.getItemViewType() == ITEM_TYPE_LOAD_MORE_VIEW) {
+            if (getItemCount() > 1) {
+                holder.itemView.setVisibility(View.VISIBLE);
+            } else {
+                holder.itemView.setVisibility(View.GONE);
+            }
         }
         if (!isFooterType(holder.getItemViewType())) {
             mInnerAdapter.onBindViewHolder(holder, position);

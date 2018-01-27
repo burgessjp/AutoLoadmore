@@ -2,6 +2,7 @@ package me.solidev.autoloadmore;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +13,6 @@ import java.util.List;
 import java.util.Random;
 
 import me.solidev.loadmore.AutoLoadMoreAdapter;
-import me.solidev.loadmore.AutoLoadMoreConfig;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private List<DemoBean> list;
     private int pageIndex = 0;
     private AutoLoadMoreAdapter mAutoLoadMoreAdapter;
+    private SwipeRefreshLayout mSwipeRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +31,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        mSwipeRefresh = findViewById(R.id.swipeRefresh);
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         //mRecyclerView.setLayoutManager(new GridLayoutManager(this,2));
         list = new ArrayList<>();
-        initData();
         MyAdapter myAdapter = new MyAdapter(this, list);
         mAutoLoadMoreAdapter = new AutoLoadMoreAdapter(this, myAdapter);
 //        mAutoLoadMoreAdapter.setConfig(new AutoLoadMoreConfig
@@ -42,9 +43,9 @@ public class MainActivity extends AppCompatActivity {
 //                .loadingView(R.layout.custom_loading)
 //                .loadFailedView(R.layout.custom_load_failed)
 //                .create());
-       // mAutoLoadMoreAdapter.disable();
-        mAutoLoadMoreAdapter.showLoadError();
-        mAutoLoadMoreAdapter.showLoadComplete();
+        // mAutoLoadMoreAdapter.disable();
+//        mAutoLoadMoreAdapter.showLoadError();
+//        mAutoLoadMoreAdapter.showLoadComplete();
         mAutoLoadMoreAdapter.setOnLoadListener(new AutoLoadMoreAdapter.OnLoadListener() {
             @Override
             public void onRetry() {
@@ -58,19 +59,37 @@ public class MainActivity extends AppCompatActivity {
                 mockLoadmore();
             }
         });
+        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mAutoLoadMoreAdapter.showLoadMore();
+                initData();
+            }
+        });
         mRecyclerView.setAdapter(mAutoLoadMoreAdapter);
-
+        initData();
 
     }
 
     private void initData() {
-        for (int i = 0; i < 10; i++) {
-            DemoBean demoBean = new DemoBean();
-            demoBean.setTitle("Title " + i);
-            demoBean.setDesc("Desc " + i);
-            list.add(demoBean);
-        }
-        pageIndex++;
+        mSwipeRefresh.setRefreshing(true);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                list.clear();
+                pageIndex = 0;
+                for (int i = 0; i < 10; i++) {
+                    DemoBean demoBean = new DemoBean();
+                    demoBean.setTitle("Title " + i);
+                    demoBean.setDesc("Desc " + i);
+                    list.add(demoBean);
+                }
+                mRecyclerView.getAdapter().notifyDataSetChanged();
+                mSwipeRefresh.setRefreshing(false);
+                pageIndex++;
+            }
+        }, 1000);
+
     }
 
     private void mockLoadmore() {
@@ -101,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
                     mAutoLoadMoreAdapter.finishLoading();
                 }
                 mRecyclerView.getAdapter().notifyDataSetChanged();
+                mSwipeRefresh.setRefreshing(false);
             }
         }, 1000);
     }
