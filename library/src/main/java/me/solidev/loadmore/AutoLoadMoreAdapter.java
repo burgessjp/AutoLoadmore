@@ -69,6 +69,7 @@ public class AutoLoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public void showLoadMore() {
         mCurrentItemType = ITEM_TYPE_LOAD_MORE_VIEW;
+        isDisabled = false;
         isLoadError = false;
         isLoadCompleted = false;
         isLoading = false;
