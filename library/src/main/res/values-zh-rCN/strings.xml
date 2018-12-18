@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="auto_loadmore_loading">加载中…</string>
+    <string name="auto_loadmore_load_finish">所有数据都已加载</string>
+    <string name="auto_loadmore_load_failed">加载失败，请点击我重试。</string>
+</resources>
